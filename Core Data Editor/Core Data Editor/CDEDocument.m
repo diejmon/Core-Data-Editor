@@ -234,7 +234,6 @@
 - (void)windowControllerDidLoadNib:(NSWindowController *)windowController {
     [super windowControllerDidLoadNib:windowController];
   
-  [self _documentWindow].titleVisibility = NSWindowTitleHidden;
     self.editorViewController.view.frame = self.containerView.bounds;
     [self.containerView addSubview:self.editorViewController.view];
     
@@ -370,6 +369,14 @@
 
 - (IBAction)copySelectedObjectsAsCSV:(id)sender {
     [self.editorViewController copySelectedObjectsAsCSV:sender];
+}
+
+- (IBAction)saveStoreOnly:(id)sender {
+    NSError *saveError = nil;
+    [self.editorViewController save:&saveError];
+    if (saveError != nil) {
+        [NSApp presentError:saveError];
+    }
 }
 
 #pragma mark - Importing/Exporting
